@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://root_branch.gd" type="Script" id=1]
+[ext_resource path="res://input.gd" type="Script" id=2]
+[ext_resource path="res://repeat.gd" type="Script" id=3]
+[ext_resource path="res://print.gd" type="Script" id=4]
+[ext_resource path="res://wait.gd" type="Script" id=5]
+[ext_resource path="res://branch.gd" type="Script" id=6]
+
+[node name="code" type="Node"]
+script = ExtResource( 1 )
+
+[node name="get_input" type="Node" parent="."]
+script = ExtResource( 2 )
+global = "user_value"
+
+[node name="repeat" type="Node" parent="."]
+script = ExtResource( 3 )
+count_global = "user_value"
+
+[node name="print" type="Node" parent="repeat"]
+script = ExtResource( 4 )
+literal = "Repeat loop!"
+
+[node name="wait" type="Node" parent="repeat"]
+script = ExtResource( 5 )
+
+[node name="branch" type="Node" parent="."]
+script = ExtResource( 6 )
+chain_pos = 1
+condition = "cond_1"
+
+[node name="print" type="Node" parent="branch"]
+script = ExtResource( 4 )
+literal = "cond 1 is true!"
+
+[node name="branch2" type="Node" parent="."]
+script = ExtResource( 6 )
+chain_pos = 2
+condition = "cond_2"
+
+[node name="print" type="Node" parent="branch2"]
+script = ExtResource( 4 )
+literal = "cond 2 is true!"
+
+[node name="branch3" type="Node" parent="."]
+script = ExtResource( 6 )
+chain_pos = 3
+condition = "cond_1"
+
+[node name="print" type="Node" parent="branch3"]
+script = ExtResource( 4 )
+literal = "cond 3 is true!"

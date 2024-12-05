@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ui.gd" type="Script" id=1]
+
+[node name="ui" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 284.931
+margin_top = 147.394
+margin_right = 685.931
+margin_bottom = 364.394
+
+[node name="Label" type="Label" parent="."]
+margin_left = 353.922
+margin_top = 177.479
+margin_right = 614.922
+margin_bottom = 235.479
+text = "Enter a value"
+align = 1
+valign = 1
+
+[node name="text" type="TextEdit" parent="."]
+margin_left = 429.481
+margin_top = 232.3
+margin_right = 538.481
+margin_bottom = 272.3
+
+[node name="button" type="Button" parent="."]
+margin_left = 410.104
+margin_top = 298.679
+margin_right = 566.104
+margin_bottom = 333.679
+text = "Submit"
