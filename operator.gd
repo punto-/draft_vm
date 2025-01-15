@@ -50,7 +50,14 @@ func get_scope_var(context, opr):
 		return null
 
 	var csl = vm.find_scope_var(context, name)
+	if csl == null:
+		return null
 	return context.call_stack[csl].scope_vars[name]
+
+func get_global_var(context, opr):
+
+	var name = get_value(context, opr[1])
+	return vm.get_global(name)
 
 func compare(context, opr):
 

@@ -56,6 +56,32 @@ The `execute` method can return one of the values defined in `vm.gd`:
 - `RET_YIELD` indicates that the instruction is not done executing, and returns control back to the VM. This leaves the task suspended until
    it becomes unsuspended (it's the responsibility of the instruction to unsuspend the task). See `wait.gd` and `input.gd` for an example.
 
+### Operators
+
+Operators are structures that return a value, that can be used as parameters for the instructions. Operators can be nested. The structure used to represent
+operators (except for literal values) is an `Array`, containing a short string indicating the type, followed by the parameters. These are the types of
+operators:
+
+- Literal value: any value that is not of type `Array` is taken as a literal value. For example `5` or the string `"hello"`. To provide a listeral value of type `Array`, use the literal operator below
+- `"l"` the literal operator, used to carry a literal value. Exmaple `["l", "hello"]` or `["l", [1, 2, 3, 4]]`
+- `"s"` a stack value. Can be a positive number from `0` to `stack size - 1`, used for stack positions relative to the bottom of the stack, or a negative value from `-1` to `-stack size`, used to reference values from the top. Exmaple `["s", 5]` or `["s", -1]`
+- `"sv"` a scope value. Used to reference a value from the scope, followed by the name of the value. Example `["sv", "size"]` retrieves the value named `size` from the current scope
+- `"gv"` a global value, followed by the name. Example `["gv", "player_count"]`
+- `"arr_i"` array index. Retrieves a value from a provided array and an index. Example: `["arr_i", ["l", [1, 2, 3, 4]], 3]`. Retrieves index 3 from the array provided by the literal operator.
+
+There are also a number of comparator operators that receive 2 parameters:
+
+- `"gt"` greater than
+- `"ge"` greater or equal
+- `"eq"` equal
+- `"lt"` less than
+- `"le"` less or equal
+
+Example of nesting operators:
+
+`["eq" ["s", 5], ["sv", "counter"]]` compares the value at stack position 5 and the scope variable "counter", returns true of equal
+
+TODO: add binary operators (`and`, `or`, `not`, etc)
 
 ### Current features:
 
@@ -76,7 +102,7 @@ Some features need testing:
 
 Some features need development (all possible to implement with the current VM):
 
-- an operator/temporary value system
+- finish operator system
 - function calls
 
 
