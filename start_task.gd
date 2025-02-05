@@ -11,8 +11,6 @@ func execute(context):
 		return vm.RET_RETURN
 
 	var code = vm.load_code(obj.events[event])
-	vm.start_task(code.duplicate())
+	vm.start_task(code.duplicate(), { "self": obj })
 
 	return vm.RET_RETURN
-
-

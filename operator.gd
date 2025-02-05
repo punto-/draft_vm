@@ -15,8 +15,13 @@ var type_handlers = {
 	"gt": "compare",
 	"ge": "compare",
 	"eq": "compare",
+	"ne": "compare",
 	"lt": "compare",
 	"le": "compare",
+
+	"or": "gate",
+	"and": "gate",
+	"not": "gate",
 
 	"obj_i": "object_index",
 	"arr_i": "array_index",
@@ -97,12 +102,30 @@ func compare(context, opr):
 			return val1 >= val2
 		"eq":
 			return val1 == val2
+		"ne":
+			return val1 != val2
 		"lt":
 			return val1 < val2
 		"le":
 			return val1 <= val2
 
 	return null
+
+func negate(context, opr):
+	return !get_value(context, opr[1])
+
+func gate(context, opr):
+	if opr.size() != 3:
+		return null
+
+	var v1 = get_value(context, opr[1])
+	var v2 = get_value(context, opr[2])
+	
+	match opr[0]:
+		"or":
+			return v1 or v2
+		"and":
+			return v1 and v2
 
 func array_index(context, opr):
 	
