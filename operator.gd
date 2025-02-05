@@ -21,7 +21,7 @@ var type_handlers = {
 
 	"or": "gate",
 	"and": "gate",
-	"not": "gate",
+	"not": "negate",
 
 	"obj_i": "object_index",
 	"arr_i": "array_index",

@@ -40,7 +40,6 @@ Each level in the execution stack has the following elements:
 - `parent` the parent level
 - `value_top` the current top of the value stack at this level of execution
 - `suspended` whether the execution is suspended for this level (might need to be moved to the task
-- `sequence` indicates the number of loops that are running on a looping stack level
 - `scope_vars` a dictionary with name/values that belong to the current levels. Can be accessed by the current level and the levels below it
 
 ### The Code
@@ -74,8 +73,17 @@ There are also a number of comparator operators that receive 2 parameters:
 - `"gt"` greater than
 - `"ge"` greater or equal
 - `"eq"` equal
+- `"ne"` not equal
 - `"lt"` less than
 - `"le"` less or equal
+
+Logic operators:
+
+- `"or"`
+- `"and"`
+- `"not"`
+
+All take 2 parameters except for `not`. Note that logical `xor` is the same as `ne`, therefore is not added as a logic operator
 
 Example of nesting operators:
 
@@ -97,13 +105,14 @@ This repository is proof of concept, but includes some instructions to test the 
 
 Some features need testing:
 
-- using the `break` instruction
-- using scope variables
+- implement/test the `break` instruction
+- test scope variables
+- implement/test the `continue` instruction
 
 Some features need development (all possible to implement with the current VM):
 
 - finish operator system
-- function calls
+- function calls (`stack_task`)
 
 
 
