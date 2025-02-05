@@ -13,7 +13,7 @@ margin_top = 147.394
 margin_right = 685.931
 margin_bottom = 364.394
 
-[node name="Label" type="Label" parent="."]
+[node name="title" type="Label" parent="."]
 margin_left = 353.922
 margin_top = 177.479
 margin_right = 614.922

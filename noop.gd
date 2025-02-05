@@ -6,5 +6,8 @@ export var params = []
 
 export var break_guard = false
 
+func unload():
+	pass
+
 func execute(context):
 	return vm.RET_RETURN

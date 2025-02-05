@@ -1,13 +1,23 @@
 
 const take_input = [
 
-	["input"],
-	["repeat", [["s", -1]], [
-
-		["print", ["looping!"]],
-		["wait", [1]],
+	["input", ["Enter task name ('transform', 'color' or 'both')"]],
+	["branch", [ ["eq", ["s", -1], "transform" ], 0 ], [
+	
+		["start_task", [ ["o", "world-id-dummy"], "move_cube"] ],
+		
 	]],
-
+	["branch", [ ["eq", ["s", -1], "color" ], 0 ], [
+	
+		["start_task", [ ["o", "world-id-dummy"], "color_cube"] ],
+		
+	]],
+	["branch", [ ["eq", ["s", -1], "both" ], 0 ], [
+	
+		["start_task", [ ["o", "world-id-dummy"], "move_cube"] ],
+		["start_task", [ ["o", "world-id-dummy"], "color_cube"] ],
+		
+	]],
 ]
 
 const move_cube = [

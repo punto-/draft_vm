@@ -7,7 +7,11 @@ func input(val, context):
 
 func execute(context):
 	var ui = get_node("/root/ui")
-	ui.get_input(self, "input", context)
+	var title = ""
+	if params.size() > 0:
+		title = vm.opr.get_value(context, params[0])
+
+	ui.get_input(self, "input", context, title)
 	return vm.RET_YIELD
 
 

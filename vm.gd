@@ -25,6 +25,7 @@ var instructions = {
 	"print": preload("print.gd"),
 	"repeat": preload("repeat.gd"),
 	"root_branch": load("root_branch.gd"),
+	"start_task": preload("start_task.gd"),
 }
 
 var task_nodes
@@ -100,13 +101,13 @@ func set_scope_var(context, level, name, val):
 func resume(frame):
 	frame.suspended = false
 
-func _stack_level(parent, top):
-	return { "ip": 0, "parent": parent, "value_top": top, "suspended": false, "scope_vars": {} }
+func _stack_level(parent, top, vars = {}):
+	return { "ip": 0, "parent": parent, "value_top": top, "suspended": false, "scope_vars": vars }
 
-func start_task(code):
+func start_task(code, vars = {}):
 	
 	var context = { "stack": [], "call_stack": [], "root": code }
-	context.call_stack.push_back( _stack_level(code, context.stack.size()) )
+	context.call_stack.push_back( _stack_level(code, context.stack.size(), vars) )
 	
 	tasks.push_back(context)
 	task_nodes.add_child(code)
@@ -190,8 +191,14 @@ func run(context):
 # also pops the value stack to the level it was when the level was top
 func _pop_stack(context, n):
 
-	if context.call_stack.size() <= n:
+	var l = context.call_stack.size()
+
+	if l <= n:
 		return
+
+	while l > n:
+		l -= 1
+		context.call_stack[l].parent.unload()
 
 	if n > 1:
 		context.stack.resize(context.call_stack[n-1].value_top)
@@ -221,7 +228,6 @@ func _process(time):
 		finish_task(task)
 
 func finish_task(task):
-	
 	task.root.queue_free()
 
 func _ready():

@@ -4,7 +4,7 @@ func execute(context):
 
 	var cond = true
 	if params.size() > 0:
-		cond = vm.opr.get_value(params[0])
+		cond = vm.opr.get_value(context, params[0])
 
 	if !cond:
 		return vm.RET_RETURN

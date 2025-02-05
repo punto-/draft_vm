@@ -4,12 +4,15 @@ var slot
 var slot_method
 var slot_udata
 
-func get_input(obj, method, udata):
+func get_input(obj, method, udata, title = ""):
 
 	slot = obj
 	slot_method = method
 	slot_udata = udata
 
+	if title != "":
+		get_node("title").set_text(title)
+		
 	show()
 
 func done():
