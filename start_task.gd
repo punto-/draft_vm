@@ -10,7 +10,7 @@ func execute(context):
 		print("error! event ", event, "not found in object ", str(obj), obj.get_path())
 		return vm.RET_RETURN
 
-	var code = vm.load_code(obj.events[event])
-	vm.start_task(code.duplicate(), { "self": obj })
+	var code = obj.get_event_code(event)
+	vm.start_task(code, { "self": obj })
 
 	return vm.RET_RETURN
