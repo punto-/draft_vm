@@ -120,9 +120,7 @@ func load_code(root):
 	return root_branch
 
 func _load_code_level(parent, code):
-	printt("loading code level ", str(code))
 	for i in code:
-		printt("loading instruction", str(i))
 		if !(i[0] in instructions):
 			# error! invalid instruction
 			continue
@@ -131,7 +129,6 @@ func _load_code_level(parent, code):
 		n.set_script(s)
 		if i.size() > 1:
 			n.params = i[1]
-			printt("adding params ", i[1], n.params)
 		if i.size() > 2:
 			_load_code_level(n, i[2])
 		parent.add_child(n)

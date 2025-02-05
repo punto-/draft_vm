@@ -6,6 +6,9 @@ func _ready():
 
 	print("main!")
 
-	var code = vm.load_code(preload("test_code.gd").move_cube)
-	vm.start_task(code.duplicate())
+	var move_code = vm.load_code(preload("test_code.gd").move_cube)
+	vm.start_task(move_code.duplicate())
+
+	var color_code = vm.load_code(preload("test_code.gd").color_cube)
+	vm.start_task(color_code.duplicate())
 	
