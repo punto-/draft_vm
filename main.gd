@@ -12,3 +12,5 @@ func _ready():
 	var color_code = vm.load_code(preload("test_code.gd").color_cube)
 	vm.start_task(color_code.duplicate())
 	
+	var input_code = vm.load_code(preload("test_code.gd").take_input)
+	vm.start_task(input_code.duplicate())

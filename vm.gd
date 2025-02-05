@@ -105,7 +105,7 @@ func _stack_level(parent, top):
 
 func start_task(code):
 	
-	var context = { "stack": [], "call_stack": [] }
+	var context = { "stack": [], "call_stack": [], "root": code }
 	context.call_stack.push_back( _stack_level(code, context.stack.size()) )
 	
 	tasks.push_back(context)
@@ -207,6 +207,22 @@ func _process(time):
 			var ret = run(t)
 			if ret == RET_YIELD:
 				break
+
+	var t = tasks.size()
+	while t:
+		t -= 1
+		if tasks[t].call_stack.size() > 0:
+			continue
+			
+		# task finished
+		var task = tasks[t]
+		tasks.remove(t)
+		
+		finish_task(task)
+
+func finish_task(task):
+	
+	task.root.queue_free()
 
 func _ready():
 	task_nodes = get_node("task_nodes")
