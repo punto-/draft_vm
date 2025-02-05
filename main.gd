@@ -5,8 +5,7 @@ onready var vm = get_node("/root/vm")
 func _ready():
 
 	print("main!")
-	vm.set_global("cond_2", true) # bit of cheating for branch test
 
-	var code = get_node("code")
-	vm.start_task(code)
+	var code = vm.load_code(preload("test_code.gd").move_cube)
+	vm.start_task(code.duplicate())
 	

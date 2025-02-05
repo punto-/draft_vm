@@ -12,6 +12,23 @@ const RET_BREAK = 3
 const RET_REPEAT = 4
 const RET_YIELD = 5
 
+var opr
+
+var instructions = {
+
+	"noop": preload("noop.gd"),
+	"wait": preload("wait.gd"),
+	"input": preload("input.gd"),
+	"branch": load("branch.gd"),
+	"interpolate": preload("interpolate.gd"),
+	"loop": preload("loop.gd"),
+	"print": preload("print.gd"),
+	"repeat": preload("repeat.gd"),
+	"root_branch": load("root_branch.gd"),
+}
+
+var task_nodes
+
 ####### some helpers
 
 # we put timers here to avoid using timer nodes (because I don't know where the scene is :p ) or doing a "busy wait" in the time.gd script
@@ -37,6 +54,10 @@ func get_global(name):
 		return null
 
 	return globals[name]
+
+func get_object(name):
+
+	return get_node("/root/main/world-objects/"+name)
 
 func find_scope_var(context, name):
 	var i = context.call_stack.size()
@@ -80,7 +101,7 @@ func resume(frame):
 	frame.suspended = false
 
 func _stack_level(parent, top):
-	return { "ip": 0, "parent": parent, "value_top": top, "suspended": false, "sequence": 0, "scope_vars": {} }
+	return { "ip": 0, "parent": parent, "value_top": top, "suspended": false, "scope_vars": {} }
 
 func start_task(code):
 	
@@ -88,7 +109,32 @@ func start_task(code):
 	context.call_stack.push_back( _stack_level(code, context.stack.size()) )
 	
 	tasks.push_back(context)
+	task_nodes.add_child(code)
 
+func load_code(root):
+
+	var root_branch = Node.new()
+	root_branch.set_script(instructions["root_branch"])
+	_load_code_level(root_branch, root)
+
+	return root_branch
+
+func _load_code_level(parent, code):
+	printt("loading code level ", str(code))
+	for i in code:
+		printt("loading instruction", str(i))
+		if !(i[0] in instructions):
+			# error! invalid instruction
+			continue
+		var n = Node.new()
+		var s = instructions[i[0]]
+		n.set_script(s)
+		if i.size() > 1:
+			n.params = i[1]
+			printt("adding params ", i[1], n.params)
+		if i.size() > 2:
+			_load_code_level(n, i[2])
+		parent.add_child(n)
 
 func run(context):
 
@@ -105,23 +151,20 @@ func run(context):
 
 		if ret == RET_RETURN:
 			top.ip += 1
-			top.sequence = 0
 			continue
 
 		if ret == RET_BRANCH:
 			top.ip += 1
-			top.sequence = 0
 			context.call_stack.push_back( _stack_level(node, context.stack.size()) )
 			return ret
 
 		if ret == RET_BRANCH_REPEAT:
+			# but not increasing top.ip, when the new stack level finishes execution it will run this instruction again
 			context.call_stack.push_back( _stack_level(node, context.stack.size()) )
-			top.sequence += 1
 			return ret
 
 		if ret == RET_REPEAT:
 			top.ip = 0
-			top.sequence = 0
 			continue
 
 		if ret == RET_BREAK:
@@ -139,7 +182,6 @@ func run(context):
 		if ret == RET_YIELD:
 			top.suspended = true
 			top.ip += 1
-			top.sequence = 0
 			return ret
 
 	# level is done, pop the stack
@@ -170,4 +212,7 @@ func _process(time):
 				break
 
 func _ready():
+	task_nodes = get_node("task_nodes")
+	opr = preload("operator.gd").new()
+	opr.vm = self
 	set_process(true)

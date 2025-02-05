@@ -5,12 +5,10 @@ const CHAIN_START = 1
 const CHAIN_MIDDLE = 2
 const CHAIN_END = 3
 
-export(int, "None", "Start", "Middle", "End") var chain_pos = 0
-
-export var condition = ""
 
 func execute(context):
 
+	var chain_pos = params[1]
 	var run = true
 	if chain_pos > CHAIN_START: # middle or end, check if previous branches already ran
 		run = !context.stack.back()
@@ -20,7 +18,7 @@ func execute(context):
 			context.stack.pop_back()
 		return
 
-	run = vm.get_global(condition)
+	run = vm.opr.get_value(context, params[0])
 
 	if chain_pos == CHAIN_START:
 		context.stack.push_back(run)

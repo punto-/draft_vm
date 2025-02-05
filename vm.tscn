@@ -4,3 +4,5 @@
 
 [node name="vm" type="Node"]
 script = ExtResource( 1 )
+
+[node name="task_nodes" type="Node" parent="."]
