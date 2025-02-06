@@ -26,6 +26,7 @@ var instructions = {
 	"repeat": preload("repeat.gd"),
 	"root_branch": load("root_branch.gd"),
 	"start_task": preload("start_task.gd"),
+	"stack_task": preload("stack_task.gd"),
 }
 
 var task_nodes
@@ -200,8 +201,10 @@ func _pop_stack(context, n):
 		l -= 1
 		context.call_stack[l].parent.unload()
 
-	if n > 1:
-		context.stack.resize(context.call_stack[n-1].value_top)
+	# not sure if this is necessary, some blocks of code might return stuff in the stack?
+	#if n > 0:
+	#	context.stack.resize(context.call_stack[n].value_top)
+
 	context.call_stack.resize(n)
 
 

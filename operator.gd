@@ -35,7 +35,10 @@ func get_value(context, opr):
 	if !(type in type_handlers):
 		return null
 
-	return call(type_handlers[type], context, opr)
+	var ret = call(type_handlers[type], context, opr)
+	#printt("operator ", str(opr), " returns ", str(ret))
+
+	return ret
 
 
 func get_literal(context, opr):

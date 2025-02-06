@@ -1,7 +1,6 @@
 extends "noop.gd"
 
 func input(val, context):
-	printt("got input ", val)
 	context.stack.push_back(val)
 	vm.resume(context.call_stack.back())
 

@@ -1,15 +1,24 @@
 
+const main = [
+	
+	["stack_task", [ ["o", "world-id-dummy"], "take_input" ] ],
+	["print", ["Call finished!"]],
+]
+
+
 const take_input = [
 
 	["input", ["Enter task name ('transform', 'color' or 'both')"]],
 	["branch", [ ["or", ["eq", ["s", -1], "transform" ], ["eq", ["s", -1], "both" ] ], 0 ], [
 	
 		["start_task", [ ["o", "world-id-dummy"], "move_cube"] ],
+		["print", ["started task move"]],
 		
 	]],
 	["branch", [ ["or", ["eq", ["s", -1], "color" ], ["eq", ["s", -1], "both" ] ], 0 ], [
 	
 		["start_task", [ ["o", "world-id-dummy"], "color_cube"] ],
+		["print", ["started task color"]],
 		
 	]],
 ]
