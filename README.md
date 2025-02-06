@@ -100,6 +100,8 @@ This repository is proof of concept, but includes some instructions to test the 
 - `print.gd` prints to the console
 - `repeat.gd` repeats a block of code on a loop
 - `wait.gd` waits an amount of time while the task is suspended
+- `start_task.gd` starts a new task, independent of the current task. The task is referenced by an object and an event name
+- `stack_task.gd` starts a task as a new execution level of the current task, similar to a function call
 
 ### Missing features
 
@@ -112,8 +114,7 @@ Some features need testing:
 Some features need development (all possible to implement with the current VM):
 
 - finish operator system
-- function calls (`stack_task`)
-
+- a unit testing framerowk with unit tests for everything
 
 
 
