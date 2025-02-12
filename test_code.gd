@@ -11,7 +11,7 @@ const take_input = [
 	["input", ["Enter task name ('transform', 'color' or 'both')"]],
 	["branch", [ ["or", ["eq", ["s", -1], "transform" ], ["eq", ["s", -1], "both" ] ], 0 ], [
 	
-		["start_task", [ ["o", "world-id-dummy"], "move_cube"] ],
+		["start_task", [ ["sv", "self"], "move_cube"] ],
 		["print", ["started task move"]],
 		
 	]],
